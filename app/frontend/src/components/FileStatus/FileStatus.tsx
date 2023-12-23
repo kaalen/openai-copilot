@@ -23,6 +23,7 @@ const dropdownTimespanOptions = [
     { key: '24hours', text: '24 hours' },
     { key: '7days', text: '7 days' },
     { key: '30days', text: '30 days' },
+    { key: 'anytime', text: 'Any time' },
   ];
 
 const dropdownFileStateOptions = [
