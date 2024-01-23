@@ -11,9 +11,9 @@ export type ExampleModel = {
 };
 
 const EXAMPLES: ExampleModel[] = [
-    { text: "What impact does China have on climate change?", value: "What impact does China have on climate change?" },
-    { text: "What are Microsoft's primary sources of revenue?", value: "What are Microsoft's primary sources of revenue?" },
-    { text: "Provide a report comparing the Arleigh Burke destroyers with the Chinese Type 055.", value: "Provide a report comparing the Arleigh Burke destroyers with the Chinese Type 055." }
+    { text: "Describe Avanade's capability and experience in designing, building, migrating, and operating Azure Data and Integration Platform.", value: "Describe Avanade's capability and experience in designing, building, migrating, and operating Azure Data and Integration Platform." },
+    { text: "Provide detailed description of the benefits of Avanade's methodology and frameworks for Azure Data and Integration Platform design, implementation, application migration and operations. ", value: "Provide detailed description of the benefits of Avanade's methodology and frameworks for Azure Data and Integration Platform design, implementation, application migration and operations. " },
+    { text: "Describe high-level solution architecture for the proposed Azure Data and Integration platform.", value: "Describe high-level solution architecture for the proposed Azure Data and Integration platform." }
 ];
 
 interface Props {
