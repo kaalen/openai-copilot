@@ -38,7 +38,7 @@ const Layout = () => {
                 </div>
             </header>
             <div className={styles.raibanner}>
-                <span className={styles.raiwarning}>AI-generated content may be incorrect</span>
+                <span className={styles.raiwarning}>AI-generated content may be incorrect. Make sure you review generated content and apply your knowledge and judgement to validate that it's accurate and fit for purpose.</span>
             </div>
 
             <Outlet />
