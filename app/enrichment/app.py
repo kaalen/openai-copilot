@@ -256,21 +256,6 @@ def index_sections(chunks):
     succeeded = sum([1 for r in results if r.succeeded])
     log.debug(f"\tIndexed {len(results)} chunks, {succeeded} succeeded")
 
-def index_delete_document(file_name):
-    """Deletes document with id from search index"""
-
-    # TODO: using searchclient here - see example
-    search_client = SearchClient(endpoint=ENV["AZURE_SEARCH_SERVICE_ENDPOINT"],
-                                    index_name=ENV["AZURE_SEARCH_INDEX"],
-                                    credential=search_creds)    
-    result = search_client.delete_documents(documents=[{'file_name': file_name}])
-
-    log.info(f"\tDeletion of documents from search index succeeded: {result[0].succeeded}")
-
-    # Example:
-    # result = search_client.delete_documents(documents=[{"hotelId": "1000"}])
-    # print("Delete new document succeeded: {}".format(result[0].succeeded))
-
 def get_tags_and_upload_to_cosmos(blob_service_client, blob_path):
     """ Gets the tags from the blob metadata and uploads them to cosmos db"""
     file_name, file_extension, file_directory = utilities_helper.get_filename_and_extension(blob_path)

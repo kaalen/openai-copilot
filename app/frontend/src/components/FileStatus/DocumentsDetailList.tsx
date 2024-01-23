@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { useCallback, useState } from "react";
+import { createRef, useCallback, useState } from "react";
 import { DetailsList, DetailsListLayoutMode, SelectionMode, IColumn, Selection, Label, BaseSelectedItemsList, Link, DialogContent } from "@fluentui/react";
 import { Dialog, DialogTrigger, DialogSurface, DialogTitle, DialogBody, DialogActions, Button } from '@fluentui/react-components';
 import { TooltipHost, IconButton } from '@fluentui/react';
 
 import styles from "./DocumentsDetailList.module.css";
 import { BlobServiceClient } from "@azure/storage-blob";
-import { getBlobClientUrl, deleteDocument } from "../../api";
+import { getBlobClientUrl, deleteDocument, pushToEmbeddingsQueue } from "../../api";
+import { ContentItemDetails } from "./ContentItemDetails";
 
 export interface IDocument {
     key: string;
@@ -57,13 +58,15 @@ export const DocumentsDetailList = ({ items, onFilesSorted }: Props) => {
     }
 
     function onItemInvoked(item: any): void {
-        // TODO: show dialog to confirm file delete
+        // TODO: show dialog to show status log
         setSelectedItem(item);
+        setContentItemDetailsOpen(true);contentItemDialogRef
         console.log(`Item invoked: ${item.name}`);
+        // contentItemDialogRef.current.openDialog()
     }
 
     const [selectedItem, setSelectedItem] = useState<IDocument | null>(null);
-    const [open, setOpen] = useState(false);
+    const [contentItemDetailsOpen, setContentItemDetailsOpen] = useState(false);
 
     function onDeleteConfirmed(item: any): void {
         // Delete the file here
@@ -71,9 +74,27 @@ export const DocumentsDetailList = ({ items, onFilesSorted }: Props) => {
         handleDeleteFile(item);
     }
 
+    function onReindexRequested(item: any): void {
+        // Create an item in the embeddings queue
+        console.log(`Creating embeddings queue item for ${item.name}: `, item);
+        handlePushToEmbeddingsQueue(item);
+    }
+
     const handleDeleteFile = useCallback(async (item: any) => {
-        //do some actions here
         const result = await deleteDocument(item);
+
+        if (result.status === "200") {
+            //TODO: remove item from list
+            console.log("item should be removed", result);
+            // items.remove(item);
+            //TODO: refresh list
+        }
+
+        return result;
+    }, []);
+
+    const handlePushToEmbeddingsQueue = useCallback(async (item: any) => {
+        const result = await pushToEmbeddingsQueue(item);
 
         return result;
     }, []);
@@ -185,10 +206,23 @@ export const DocumentsDetailList = ({ items, onFilesSorted }: Props) => {
                             onDeleteConfirmed(item);
                         }}
                     />
+                    <IconButton
+                        style={{ color: "black" }}
+                        iconProps={{ iconName: "Insert" }}
+                        title="Reindex"
+                        ariaLabel="Reindex"
+                        onClick={() => {
+                            // console.log('clicked', item);
+                            // setOpen(true); 
+                            onReindexRequested(item);
+                        }}
+                    />
                 </>
             },
-        },
+        }
     ]);
+
+    const contentItemDialogRef = createRef<typeof ContentItemDetails>();
 
     return (
         <div>
@@ -205,36 +239,7 @@ export const DocumentsDetailList = ({ items, onFilesSorted }: Props) => {
                 onItemInvoked={onItemInvoked}
             />
             <span className={styles.footer}>{"(" + items.length as string + ") records."}</span>
-            {/* <Dialog
-                open={open}
-                onOpenChange={(event, data) => {
-                    // it is the users responsibility to react accordingly to the open state change
-                    setOpen(data.open);
-                }}
-                // dialogContentProps={{
-                //     type: DialogType.normal,
-                //     title: 'Confirm Delete',
-                //     subText: `Are you sure you want to delete ${selectedItem?.name}?`,
-                // }}
-                // modalProps={{
-                //     isBlocking: true,
-                //     styles: { main: { maxWidth: 450 } },
-                // }}
-            >
-                <DialogSurface>
-                    <DialogBody>
-                        <DialogTitle>Confirm Delete</DialogTitle>
-                        <DialogContent>
-                            Are you sure you want to delete xxx?
-                        </DialogContent>
-                    </DialogBody>
-                </DialogSurface>
-                <DialogActions>
-                    <Button appearance="primary" onClick={() => alert("todo: not yet implemented, file to be deleted")}>Delete</Button>
-                    <Button appearance="secondary">Cancel</Button>
-                </DialogActions>
-            </Dialog> */}
-
+            <ContentItemDetails ref={contentItemDialogRef} item={selectedItem == undefined ? null : selectedItem} /> // open={contentItemDetailsOpen}
         </div>
     );
 }

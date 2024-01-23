@@ -151,6 +151,12 @@ export type StatusLogEntry = {
     state: StatusLogState;
 }
 
+export type StatusUpdatesResponse = {
+    statusUpdates: StatusLogEntry[];
+    status: number;
+    error?: string;
+}
+
 export type StatusLogResponse = {
     status: number;
     error?: string;
