@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AskRequest, AskResponse, ChatRequest, BlobClientUrlResponse, AllFilesUploadStatus, GetUploadStatusRequest, GetInfoResponse, ActiveCitation, GetWarningBanner, StatusLogEntry, StatusLogResponse, ApplicationTitle, GetTagsResponse, DeleteDocumentResponse } from "./models";
+import { AskRequest, AskResponse, ChatRequest, BlobClientUrlResponse, AllFilesUploadStatus, GetUploadStatusRequest, GetInfoResponse, ActiveCitation, GetWarningBanner, StatusLogEntry, StatusLogResponse, ApplicationTitle, GetTagsResponse, DeleteDocumentResponse, StatusUpdatesResponse } from "./models";
 
 export async function askApi(options: AskRequest): Promise<AskResponse> {
     const response = await fetch("/ask", {
@@ -82,6 +82,28 @@ export async function deleteDocument(path:string): Promise<DeleteDocumentRespons
         },
         body: JSON.stringify({
             path: path
+        })
+    });
+
+    const parsedResponse: any = await response.json();
+    if (response.status > 299 || !response.ok) {
+        console.log(response);
+        throw Error(parsedResponse.error || "Unknown error");
+    }
+    return parsedResponse;
+}
+
+export async function pushToEmbeddingsQueue(item:any): Promise<string> {
+
+    const response = await fetch("/pushtoembeddingsqueue", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            "blob_name": "upload/Perth Airport/02. Perth Airport Acceptable Use Policy.pdf",
+            "blob_uri": "https://infoasststorewynrx.blob.core.windows.net/upload/Perth Airport/02. Perth Airport Acceptable Use Policy.pdf",
+            "submit_queued_count": 1
         })
     });
 
@@ -238,6 +260,26 @@ export async function getAllTags(): Promise<GetTagsResponse> {
         throw Error(parsedResponse.error || "Unknown error");
     }
     var results: GetTagsResponse = {tags: parsedResponse};
+    return results;
+}
+
+export async function getStatusUpdates(id: string): Promise<StatusUpdatesResponse> {
+    const response = await fetch(`/getstatusupdates`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            id: id
+        })
+    });
+
+    const parsedResponse: any = await response.json();
+    if (response.status > 299 || !response.ok) {
+        console.log(response);
+        throw Error(parsedResponse.error || "Unknown error");
+    }
+    var results: StatusUpdatesResponse = parsedResponse;
     return results;
 }
 
