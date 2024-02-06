@@ -387,3 +387,6 @@ packages-microsoft*
 
 # docker container build artifacts
 app/enrichment/shared_code
+
+# Ignore backup files
+*.bak

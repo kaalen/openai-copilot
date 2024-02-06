@@ -10,9 +10,11 @@ export type ExampleModel = {
     value: string;
 };
 
+const org_name = "Contoso"
+
 const EXAMPLES: ExampleModel[] = [
-    { text: "Describe Avanade's capability and experience in designing, building, migrating, and operating Azure Data and Integration Platform.", value: "Describe Avanade's capability and experience in designing, building, migrating, and operating Azure Data and Integration Platform." },
-    { text: "Provide detailed description of the benefits of Avanade's methodology and frameworks for Azure Data and Integration Platform design, implementation, application migration and operations. ", value: "Provide detailed description of the benefits of Avanade's methodology and frameworks for Azure Data and Integration Platform design, implementation, application migration and operations. " },
+    { text: `Describe ${org_name}'s capability and experience in designing, building, migrating, and operating Azure Data and Integration Platform.`, value: `Describe ${org_name}'s capability and experience in designing, building, migrating, and operating Azure Data and Integration Platform.` },
+    { text: `Provide detailed description of the benefits of ${org_name}'s methodology and frameworks for Azure Data and Integration Platform design, implementation, application migration and operations. `, value: `Provide detailed description of the benefits of ${org_name}'s methodology and frameworks for Azure Data and Integration Platform design, implementation, application migration and operations. ` },
     { text: "Describe high-level solution architecture for the proposed Azure Data and Integration platform.", value: "Describe high-level solution architecture for the proposed Azure Data and Integration platform." }
 ];
 
