@@ -98,7 +98,6 @@ export const QuestionInput = ({ onSend, disabled, placeholder, clearOnSend, onAd
                         aria-label="Ask question button"
                         onClick={sendQuestion}
                     >
-                        <Send28Filled primaryFill="rgb(255, 88, 0, 1)" />
                         <Send28Filled primaryFill="rgba(114, 9, 183, 1)" />
                     </div>
                 </div>
