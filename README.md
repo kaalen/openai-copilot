@@ -1,4 +1,18 @@
-# Information Assistant Accelerator
+# Azure OpenAI Custom Copilot
+
+This project is a fork of [Microsoft/PubSec-Info-Assistant](https://github.com/microsoft/PubSec-Info-Assistant). Head over to the original repo and check it out as it's currently, as of February 2024, under quite active development. My fork is "detached" from the original repo as I originally planned to develop this for internal use at my employer as a "proposal writing assistant", and thus needed to make the repo private.
+
+I have since decided to pivot again and take this side-project down a more generic path with the intent to optimise it for **personal productivity use cases** for myself, as a technology consultant who often needs to work on client cases or pre-sales, perusing substantial amounts of unstructured content from disparate sources.
+
+The requirements my personal custom copilot must meet are:
+
+* I need to be able to ingest various formats of content and pre-process or crack them for use with a large language model.
+* I also need to be able to create topics or tailored contexts.
+* The solution must store content securely and only allow access to authorised persons.
+* I need to be able to remove and destruct all uploaded content after I'm done using it.
+* The content I use may be sensitive and thus I only want to use AI services which provide assurances that the content will not be used for fine-tuning or fugure refinement of foundational models.
+* The solution must be as cost effective as possible and feasible to run on the typical amount of monthly Azure credits available through Visual Studio Subscription.
+* The branding and styling should be appealing to my eyes and since I like purple and blue colours, that's what it is.
 
 > [!IMPORTANT]  
 > As of November 15, 2023, Azure Cognitive Search has been renamed to Azure AI Search. Azure Cognitive Services have also been renamed to Azure AI Services.
@@ -54,7 +68,7 @@ For a detailed review see our [Features](./docs/features/features.md) page.
 
 * **Azure account**. If you're new to Azure, [get an Azure account for free](https://azure.microsoft.com/free/cognitive-search/) and you'll get some free Azure credits to get started.
 * **Azure subscription with access enabled for the Azure OpenAI service**. You can request access with [this form](https://aka.ms/oaiapply).
-  * **Access to one of the following Azure OpenAI models**:
+* **Access to one of the following Azure OpenAI models**:
 
     Model Name | Supported Versions
     ---|---
